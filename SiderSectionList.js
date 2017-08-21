@@ -1,5 +1,5 @@
 import React, {PureComponent} from 'react'
-import PropTypes from 'propTypes';
+import PropTypes from 'prop-types';
 import {Text, View, StyleSheet} from 'react-native'
 const returnTrue = () => true;
 
