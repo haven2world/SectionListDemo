@@ -5,6 +5,7 @@ fork 自https://github.com/hzl123456/SectionListDemo
 将原作者Demo中的组件抽出
 
 ##安装
+
 	npm install --save git://github.com/haven2world/react-native-contacts-list.git
 	
 ##使用
