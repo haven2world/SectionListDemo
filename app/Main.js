@@ -1,68 +1,83 @@
 import React, {Component} from 'react'
-import {SectionList, Text, View, StyleSheet, Platform} from 'react-native'
-import CitySectionList from './CitySectionList'
-
-const ITEM_HEIGHT = 50; //item的高度
-const HEADER_HEIGHT = 24;  //分组头部的高度
-const SEPARATOR_HEIGHT = 0;  //分割线的高度
-
-export  default  class Main extends Component {
-
-    async getCityInfos() {
-        let data = await require('../app/assets/city.json');
-        let jsonData = data.data
-        //每组的开头在列表中的位置
-        let totalSize = 0;
-        //SectionList的数据源
-        let cityInfos = [];
-        //分组头的数据源
-        let citySection = [];
-        //分组头在列表中的位置
-        let citySectionSize = [];
-        for (let i = 0; i < jsonData.length; i++) {
-            citySectionSize[i] = totalSize;
-            //给右侧的滚动条进行使用的
-            citySection[i] = jsonData[i].title;
-            let section = {}
-            section.key = jsonData[i].title;
-            section.data = jsonData[i].city;
-            for (let j = 0; j < section.data.length; j++) {
-                section.data[j].key = j
-            }
-            cityInfos[i] = section;
-            //每一项的header的index
-            totalSize += section.data.length + 1
-        }
-        this.setState({data: cityInfos, sections: citySection, sectionSize: citySectionSize})
-    }
+import {SectionList, Text, View, StyleSheet, Platform,FlatList} from 'react-native'
+import SiderSectionList from './SiderSectionList'
+import sectionListGetItemLayout from 'react-native-section-list-get-item-layout'
 
 
+let _this;
+class List extends Component {
     constructor(props) {
         super(props);
+        _this = this;
+
         this.state = {
             data: [],
             sections: [],
-            sectionSize: []
         }
-        this.getCityInfos()
+        this.getItemLayout = null;
+        this.list = null;
+    }
+    componentDidMount(){
+        this.getData(this.props);
+    }
+    componentWillReceiveProps(nextProps){
+        this.getData(nextProps);
+    }
+    getData = (props)=>{
+        let data = props.data?props.data:[];
+        //SectionList的数据源
+        let dataSource = [];
+        //分组头的数据源
+        let dataSection = [];
+        for (let i = 0; i < data.length; i++) {
+            //给右侧的滚动条进行使用的
+            dataSection[i] = data[i].title;
+            let section = {}
+            section.key = data[i].title;
+            section.data = data[i].data;
+            for (let j = 0; j < section.data.length; j++) {
+                section.data[j].key = j
+            }
+
+            dataSource[i] = section;
+        }
+        let separatorHeight = props.separatorHeight?props.separatorHeight:0;
+        let itemHeight = props.itemHeight? props.itemHeight:50;
+        let headerHeight = props.headerHeight?props.headerHeight:0;
+        let footerHeight = props.footerHeight?props.footerHeight:0;
+        this.getItemLayout = sectionListGetItemLayout({
+           // The height of the row with rowData at the given sectionIndex and rowIndex
+           getItemHeight: (rowData, sectionIndex, rowIndex) => itemHeight,
+
+           // These three properties are optional
+           getSeparatorHeight: () => separatorHeight , // The height of your separators
+           getSectionHeaderHeight: () => headerHeight, // The height of your section headers
+           getSectionFooterHeight: () => footerHeight, // The height of your section footers
+        })
+
+        this.setState({data: dataSource, sections: dataSection})
+
     }
 
     render() {
         if (this.state.data.length > 0) {
             return (
-                <View style={{paddingTop: Platform.OS === 'android' ? 0 : 20}}>
+                <View style={{flex:1}}>
                     <View>
                         <SectionList
-                            ref='list'
+                            ref={(component)=>{this.list = component}}
                             enableEmptySections
                             renderItem={this._renderItem}
                             renderSectionHeader={this._renderSectionHeader}
                             sections={this.state.data}
-                            getItemLayout={this._getItemLayout}/>
+                            getItemLayout={this.getItemLayout}
+                            {...this.props}
+                               />
 
-                        <CitySectionList
+                        <SiderSectionList
                             sections={ this.state.sections}
                             onSectionSelect={this._onSectionselect}/>
+
                     </View>
                 </View>
             )
@@ -74,14 +89,43 @@ export  default  class Main extends Component {
     //这边返回的是A,0这样的数据
     _onSectionselect = (section, index) => {
         //跳转到某一项
-        this.refs.list.scrollToIndex({animated: true, index: this.state.sectionSize[index]})
+        if(_this.list){
+            _this.list.scrollToLocation({animated: true, sectionIndex:index,itemIndex:0,viewOffset:this.props.itemHeight})
+        }
+    }
+    _renderItem = (item,index) => {
+        if(this.props.toRenderItem){
+            return this.props.toRenderItem(item,index)
+        }else{
+            return (
+                <View style={styles.itemView}>
+                    <Text style={{marginLeft: 30, fontSize: 16, color: '#333'}}>
+                        {index}
+                    </Text>
+                </View>
+            )
+        }
+
     }
 
-    _getItemLayout(data, index) {
-        let [length, separator, header] = [ITEM_HEIGHT, SEPARATOR_HEIGHT, HEADER_HEIGHT];
-        return {length, offset: (length + separator) * index + header, index};
+    _renderSectionHeader = (section) => {
+        if(this.props.toRenderSectionHeader){
+            return this.props.toRenderSectionHeader(section);
+        }        
     }
-
+}
+export  default  class Main extends Component{
+    constructor(props){
+        super(props);
+        this.state = {
+            data:null
+        }
+        this.getCityInfos();
+    }
+    async getCityInfos() {
+        let data = await require('../app/assets/city.json');
+        this.setState({data:data.data})
+    }
     _renderItem = (item) => {
         return (
             <View style={styles.itemView}>
@@ -105,13 +149,27 @@ export  default  class Main extends Component {
             </View>
         )
     }
+    render(){
+        return(
+            <View style={{flex:1}}>
+                <List 
+                data={this.state.data}
+                toRenderItem={this._renderItem}
+                toRenderSectionHeader={this._renderSectionHeader}
+                itemHeight={50}
+                headerHeight={24}
+                />
+            </View>
+            )
+    }
+
 }
 
 const styles = StyleSheet.create({
 
     headerView: {
         justifyContent: 'center',
-        height: HEADER_HEIGHT,
+        height: 24,
         paddingLeft: 20,
         backgroundColor: '#eee'
     },
@@ -124,6 +182,6 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         padding: 12,
         alignItems: 'center',
-        height: ITEM_HEIGHT
+        height: 50
     }
 });
