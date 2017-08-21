@@ -1,22 +1,16 @@
 {
-  "name": "SectionListDemo",
-  "version": "0.0.1",
-  "private": true,
+  "name": "react-native-contacts-list",
+  "version": "1.0.0",
+  "description": "React Native使用SectionList打造通讯录式选择列表，包含分组的跳转。",
+  "main": "index.js",
   "scripts": {
-    "start": "node node_modules/react-native/local-cli/cli.js start",
-    "test": "jest"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "author": "haven",
+  "license": "ISC",
   "dependencies": {
     "react": "^16.0.0-alpha.12",
-    "react-native": "^0.45.0"
-  },
-  "devDependencies": {
-    "babel-jest": "19.0.0",
-    "babel-preset-react-native": "1.9.1",
-    "jest": "19.0.2",
-    "react-test-renderer": "16.0.0-alpha.6"
-  },
-  "jest": {
-    "preset": "react-native"
+    "react-native": "^0.46.0",
+    "react-native-section-list-get-item-layout":"2.0.0",
   }
 }
