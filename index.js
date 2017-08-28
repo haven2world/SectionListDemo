@@ -108,7 +108,7 @@ export  default class List extends Component {
 
     }
 
-    _renderSectionHeader = (section) => {
+    _renderSectionHeader = ({section}) => {
         if(this.props.toRenderSectionHeader){
             return this.props.toRenderSectionHeader(section);
         }        
