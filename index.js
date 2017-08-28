@@ -33,7 +33,7 @@ export  default class List extends Component {
             //给右侧的滚动条进行使用的
             dataSection[i] = data[i].title;
             let section = {}
-            section.key = data[i].title;
+            section.title = data[i].title;
             section.data = data[i].data;
             for (let j = 0; j < section.data.length; j++) {
                 section.data[j].key = j
