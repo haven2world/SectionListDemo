@@ -15,7 +15,7 @@ fork 自https://github.com/hzl123456/SectionListDemo
 
 	（fun） toRenderSectionHeader(section) 取代 SectionList的 renderSectionHeader（section）
 
-	（fun） toRenderItem(item,index) 取代 SectionList的 renderItem(item,index)
+	（fun） toRenderItem(item,index) 取代 SectionList的 renderItem(item,index,section)
 
 	（number） itemHeight 每一行的高度
 	
@@ -38,5 +38,7 @@ fork 自https://github.com/hzl123456/SectionListDemo
 
 其他参数会被传递给 SectionList 组件。
 
+## tips
+	如果无法显示 尝试在外层固定高度
 	
 
