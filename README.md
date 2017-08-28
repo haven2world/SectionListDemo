@@ -6,11 +6,11 @@ fork 自https://github.com/hzl123456/SectionListDemo
 
 需要使用rn 0.46.0以上版本
 
-##安装
+## 安装
 
 	npm install --save github:haven2world/react-native-contacts-list
 	
-##使用
+## 使用
 引用组件直接使用，需传参数
 
 	（fun） toRenderSectionHeader(section) 取代 SectionList的 renderSectionHeader（section）
