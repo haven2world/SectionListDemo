@@ -93,9 +93,9 @@ export  default class List extends Component {
             _this.list.scrollToLocation({animated: true, sectionIndex:index,itemIndex:0,viewOffset:this.props.headerHeight?this.props.headerHeight:0})
         }
     }
-    _renderItem = (item,index) => {
+    _renderItem = ({item,index,section}) => {
         if(this.props.toRenderItem){
-            return this.props.toRenderItem(item,index)
+            return this.props.toRenderItem(item,index,section)
         }else{
             return (
                 <View style={styles.itemView}>
