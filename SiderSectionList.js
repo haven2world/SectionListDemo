@@ -109,7 +109,7 @@ export  default class CitySectionList extends PureComponent {
             this.lastSelectedIndex = index;
             this.onSectionSelect(this.props.sections[index], index, true);
             this.setState({text: this.props.sections[index], isShow: true});
-            setTimeout(()=>{this.setState({isShow:false})},1000);
+            setTimeout(()=>{this.resetSection()},1000);
         }
     }
 
