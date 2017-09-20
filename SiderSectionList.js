@@ -89,7 +89,19 @@ export  default class CitySectionList extends PureComponent {
             })
         }, 0);
     }
-
+            
+    componentDidUpdate() {
+      const sectionItem = this.refs.sectionItem0;
+      this.measureTimer = setTimeout(() => {
+        sectionItem.measure((x, y, width, height, pageX, pageY) => {
+          this.measure = {
+            y: pageY,
+            height
+          };
+        })
+      }, 0);
+    }
+            
     detectAndScrollToSection = (e) => {
         var ev = e.nativeEvent.touches[0];
         // 手指按下的时候需要修改颜色
