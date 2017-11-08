@@ -117,7 +117,7 @@ export  default class CitySectionList extends PureComponent {
     // 手指按下的时候需要修改颜色
     this.refs.view.setNativeProps({
       style: {
-        backgroundColor: 'rgba(0,0,0,0.3)'
+        backgroundColor: 'rgba(0,0,0,0.1)'
       }
     })
     let targetY = ev.pageY;
@@ -218,6 +218,7 @@ const styles = StyleSheet.create({
   },
 
   sectionItem: {
-    fontSize: 12
+    fontSize: 10,
+    color:'rgba(0,0,0,0.4)'
   }
 });
