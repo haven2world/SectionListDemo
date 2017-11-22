@@ -102,12 +102,15 @@ export  default class CitySectionList extends PureComponent {
   componentDidUpdate() {
     const sectionItem = this.refs.sectionItem0;
     this.measureTimer = setTimeout(() => {
-      sectionItem.measure((x, y, width, height, pageX, pageY) => {
-        this.measure = {
-          y: pageY,
-          height
-        };
-      })
+      if(sectionItem&&sectionItem.measure){
+        sectionItem.measure((x, y, width, height, pageX, pageY) => {
+          this.measure = {
+            y: pageY,
+            height
+          };
+        })
+      }
+
     }, 0);
   }
 
