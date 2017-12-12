@@ -65,7 +65,7 @@ export  default class List extends Component {
                 <View style={{flex:1}}>
                     <View>
                         <SectionList
-                            ref={(component)=>{this.list = component;this.props.getRef(component)}}
+                            ref={(component)=>{this.list = component;this.props.getRef&&this.props.getRef(component)}}
                             enableEmptySections
                             renderItem={this._renderItem}
                             renderSectionHeader={this._renderSectionHeader}
