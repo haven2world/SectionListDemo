@@ -71,6 +71,7 @@ export  default class List extends Component {
                             renderSectionHeader={this._renderSectionHeader}
                             sections={this.state.data}
                             getItemLayout={this.getItemLayout}
+                            keyExtractor={(item,index)=>index}
                             {...this.props}
                                />
 
