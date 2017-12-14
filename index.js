@@ -4,11 +4,9 @@ import SiderSectionList from './SiderSectionList'
 import sectionListGetItemLayout from 'react-native-section-list-get-item-layout'
 
 
-let _this;
 export  default class List extends Component {
     constructor(props) {
         super(props);
-        _this = this;
 
         this.state = {
             data: [],
@@ -90,8 +88,8 @@ export  default class List extends Component {
     //这边返回的是A,0这样的数据
     _onSectionselect = (section, index) => {
         //跳转到某一项
-        if(_this.list){
-            _this.list.scrollToLocation({animated: true, sectionIndex:index,itemIndex:0,viewOffset:this.props.headerHeight?this.props.headerHeight:0})
+        if(this.list){
+            this.list.scrollToLocation({animated: true, sectionIndex:index,itemIndex:0,viewOffset:this.props.headerHeight?this.props.headerHeight:0})
         }
     }
     _renderItem = ({item,index,section}) => {
