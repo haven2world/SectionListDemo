@@ -72,10 +72,15 @@ export  default class List extends Component {
                             keyExtractor={(item,index)=>index}
                             {...this.props}
                                />
-
-                        <SiderSectionList
+                      {(()=>{
+                        if(!this.props.sideListDisable){
+                          return  <SiderSectionList
                             sections={ this.state.sections}
-                            onSectionSelect={this._onSectionselect}/>
+                            onSectionSelect={this._onSectionselect}
+                          />
+                        }
+                      })()}
+
 
                     </View>
                 </View>
